@@ -1,0 +1,49 @@
+POST http://localhost:8080/get-task HTTP/1.1
+content-type: application/json
+
+{
+  "id": 2
+}
+
+###
+POST http://localhost:8080/get-task HTTP/1.1
+content-type: application/json
+
+{
+  "id": 999
+}
+
+###
+POST http://localhost:8080/get-tasks HTTP/1.1
+
+###
+POST http://localhost:8080/create-task HTTP/1.1
+content-type: application/json
+
+{
+  "title": "fugaaaaaaaaaaaaaaaaaaaa"
+}
+
+###
+POST http://localhost:8080/delete-task HTTP/1.1
+content-type: application/json
+
+{
+  "id": 1
+}
+
+###
+POST http://localhost:8080/done-task HTTP/1.1
+content-type: application/json
+
+{
+  "id": 2
+}
+
+###
+POST http://localhost:8080/undone-task HTTP/1.1
+content-type: application/json
+
+{
+  "id": 2
+}
