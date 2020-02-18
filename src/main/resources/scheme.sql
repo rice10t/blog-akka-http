@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS task
-(
-    id    BIGSERIAL PRIMARY KEY,
-    title CHARACTER VARYING(255) NOT NULL,
-    done  BOOLEAN                NOT NULL
-);
