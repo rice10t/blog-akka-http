@@ -1,9 +1,8 @@
 package controllers
 
-import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ExceptionHandler, Route}
-import module.MainModule
 
 object Routes {
   private def postRoute(pathString: String) = path(pathString) & post
@@ -17,11 +16,11 @@ object Routes {
         }
     }
 
-  def routes(modules: MainModule): Route = {
-    val taskController = modules.taskController
-    val userController = modules.userController
-    val loginController = modules.loginController
-
+  def routes(
+      taskController: TaskController,
+      userController: UserController,
+      loginController: LoginController
+  ): Route = {
     handleExceptions(exceptionHandler) {
       concat(
         postRoute("get-task") { taskController.getTask },

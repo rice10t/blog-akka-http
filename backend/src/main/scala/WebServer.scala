@@ -8,8 +8,13 @@ import scala.util.Try
 
 object WebServer extends HttpApp {
   val modules: MainModule = new MainModule {}
+
   override def routes: Route = {
-    Routes.routes(modules)
+    Routes.routes(
+      modules.taskController,
+      modules.userController,
+      modules.loginController
+    )
   }
 
   override def postServerShutdown(attempt: Try[Done], system: ActorSystem): Unit = {
