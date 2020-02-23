@@ -1,4 +1,4 @@
-package quill
+package dao
 
 import io.getquill._
 

@@ -1,11 +1,20 @@
+import akka.Done
+import akka.actor.ActorSystem
 import akka.http.scaladsl.server.{HttpApp, Route}
 import controllers.Routes
-import quill.MyContext
+import module.MainModule
 
+import scala.util.Try
 
 object WebServer extends HttpApp {
-  val ctx = new MyContext
-  override def routes: Route = Routes.routes(ctx)
+  val modules: MainModule = new MainModule {}
+  override def routes: Route = {
+    Routes.routes(modules)
+  }
+
+  override def postServerShutdown(attempt: Try[Done], system: ActorSystem): Unit = {
+    modules.quillContext.close()
+  }
 }
 
 object Main {
