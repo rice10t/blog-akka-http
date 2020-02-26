@@ -12,6 +12,12 @@ CREATE TABLE IF NOT EXISTS login_user
     password CHARACTER VARYING(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS github_user
+(
+    id           BIGINT PRIMARY KEY,
+    access_token CHARACTER VARYING(255)
+);
+
 CREATE TABLE IF NOT EXISTS article
 (
     id         BIGSERIAL PRIMARY KEY,

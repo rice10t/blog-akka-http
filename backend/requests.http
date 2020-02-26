@@ -24,3 +24,11 @@ content-type: application/json
   "username": "hoge",
   "password": "invalid"
 }
+
+###
+POST http://localhost:8080/login_oauth HTTP/1.1
+content-type: application/json
+
+{
+  "code": "codecodecode"
+}

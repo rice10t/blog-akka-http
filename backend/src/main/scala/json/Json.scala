@@ -1,11 +1,12 @@
 package json
 
 import io.circe.generic.semiauto._
-import model.{Task, LoginUser}
+import io.circe.{Decoder, Encoder}
+import model.{LoginUser, Task}
 
 trait Json {
-  implicit val taskDecoder = deriveDecoder[Task]
-  implicit val taskEncoder = deriveEncoder[Task]
-  implicit val userDecoder = deriveDecoder[LoginUser]
-  implicit val userEncoder = deriveEncoder[LoginUser]
+  implicit val taskDecoder: Decoder[Task] = deriveDecoder
+  implicit val taskEncoder: Encoder[Task] = deriveEncoder
+  implicit val userDecoder: Decoder[LoginUser] = deriveDecoder
+  implicit val userEncoder: Encoder[LoginUser] = deriveEncoder
 }
