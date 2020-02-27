@@ -7,14 +7,17 @@ import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import io.circe.Decoder
 import json.Json
 import service.{GithubService, GithubServiceErrors, LoginService, LoginServiceErrors}
+import session.SessionDirectives
 
 import scala.concurrent.ExecutionContext
 
-class LoginController(loginService: LoginService, githubService: GithubService)(implicit ec: ExecutionContext)
-    extends LoginControllerJson {
+class LoginController(loginService: LoginService, githubService: GithubService, sessionDirectives: SessionDirectives)(
+    implicit ec: ExecutionContext
+) extends LoginControllerJson {
   def login = {
     entity(as[LoginRequest]) { json =>
       val result = loginService.login(json.username, json.password)
+
       onSuccess(result.value) {
         case Right(_)                                => complete("TODO: return the token")
         case Left(LoginServiceErrors.UserNotFound()) => complete(StatusCodes.BadRequest, "user not found")
@@ -28,16 +31,15 @@ class LoginController(loginService: LoginService, githubService: GithubService)(
 
       onSuccess(userE.value) {
         case Right(user) =>
-          complete(user)
+          sessionDirectives.setSession(user) {
+            complete("ok")
+          }
         // TODO error handling
         case Left(error) =>
           error match {
             case GithubServiceErrors.AccessTokenRequestError(err) =>
-              println(err)
               complete("access token error")
             case GithubServiceErrors.UserDataRequestError(err) =>
-              println(err)
-              println(err.body)
               complete("user data error")
           }
       }

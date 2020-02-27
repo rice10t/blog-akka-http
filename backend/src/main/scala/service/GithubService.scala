@@ -12,7 +12,7 @@ import sttp.client.asynchttpclient.WebSocketHandler
 import scala.concurrent.{ExecutionContext, Future}
 
 class GithubService(githubUserDao: GithubUserDao, config: Config)(implicit ec: ExecutionContext) extends GithubJson {
-  def loginWithGithub(code: String): EitherT[Future, LoginWithGithubError, String] = {
+  def loginWithGithub(code: String): EitherT[Future, LoginWithGithubError, Long] = {
     import sttp.client._
     import sttp.client.asynchttpclient.future.AsyncHttpClientFutureBackend
     import sttp.client.circe._
@@ -61,8 +61,8 @@ class GithubService(githubUserDao: GithubUserDao, config: Config)(implicit ec: E
     for {
       accessTokenResponse <- accessTokenRequest(clientId, clientSecret)
       userDataResponse <- userDataRequest(accessTokenResponse.access_token)
-      _ <- createUserOrUpdateAccessToken(userDataResponse.id, accessTokenResponse.access_token)
-    } yield userDataResponse.id.toString
+      githubId <- createUserOrUpdateAccessToken(userDataResponse.id, accessTokenResponse.access_token)
+    } yield githubId
   }
 }
 

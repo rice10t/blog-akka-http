@@ -11,9 +11,12 @@ object WebServer extends HttpApp {
 
   override def routes: Route = {
     Routes.routes(
+      modules.articleController,
+      modules.homeController,
+      modules.loginController,
       modules.taskController,
       modules.userController,
-      modules.loginController
+      modules.sessionDirectives
     )
   }
 

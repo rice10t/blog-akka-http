@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-http" % "10.1.8",
   "ch.megard" %% "akka-http-cors" % "0.4.2",
   "de.heikoseeberger" %% "akka-http-circe" % "1.31.0",
+  "com.softwaremill.akka-http-session" %% "core" % "0.5.10",
   // sttp
   "com.softwaremill.sttp.client" %% "core" % "2.0.0",
   "com.softwaremill.sttp.client" %% "async-http-client-backend-future" % "2.0.0",

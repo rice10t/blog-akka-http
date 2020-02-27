@@ -4,6 +4,7 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ExceptionHandler, Route}
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
+import session.SessionDirectives
 
 object Routes {
   private def postRoute(pathString: String) = path(pathString) & post
@@ -19,24 +20,27 @@ object Routes {
     }
 
   def routes(
+      articleController: ArticleController,
+      homeController: HomeController,
+      loginController: LoginController,
       taskController: TaskController,
       userController: UserController,
-      loginController: LoginController
+      sessionDirectives: SessionDirectives
   ): Route = {
     handleExceptions(exceptionHandler) {
       cors() {
         concat(
-          postRoute("get-task") { taskController.getTask },
-          postRoute("get-tasks") { taskController.getTasks },
-          postRoute("create-task") { taskController.createTask },
-          postRoute("delete-task") { taskController.deleteTask },
-          postRoute("done-task") { taskController.doneTask },
-          postRoute("undone-task") { taskController.undoneTask },
           // user
           postRoute("create-user") { userController.createUser },
           // login
           postRoute("login") { loginController.login },
-          postRoute("login_oauth") { loginController.loginOauth }
+          postRoute("login_oauth") { loginController.loginOauth },
+          // home
+          sessionDirectives.requiredSession { session =>
+            postRoute("home") { homeController.home }
+          },
+          // article
+          postRoute("create-article") { articleController.createArticle }
         )
       }
     }

@@ -29,6 +29,7 @@ class GithubUserDao(ctx: MyContext)(implicit private val ec: ExecutionContext) {
               .onConflictUpdate(_.id)((t, e) => t.accessToken -> lift(accessToken))
           }
         }
+        id
       }
     }
   }

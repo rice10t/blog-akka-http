@@ -1,28 +1,29 @@
-import {useEffect} from "react"
+import { useEffect } from "react"
 
 export default function Confirm() {
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search)
     const code = urlParams.get("code")
 
     fetch("http://localhost:8080/login_oauth", {
-      method: 'POST',
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       mode: "cors",
       body: JSON.stringify({
-        code: code
-      })
+        code: code,
+      }),
     })
-      .then(console.log)
+      .then(res => {
+        if (res.ok) {
+          window.location.href = "/home"
+        } else {
+          console.error("login failed")
+        }
+      })
       .catch(console.log)
   }, [])
 
-
-  return (
-    <div>
-      Redirecting...
-    </div>
-  )
+  return <div>Redirecting...</div>
 }
