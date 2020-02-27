@@ -1,12 +1,9 @@
 package controllers
 
 import akka.http.scaladsl.server.Directives._
-import session.SessionDirectives
 
-class HomeController(sessionDirective:SessionDirectives) {
+class HomeController() {
   def home = {
-    sessionDirective.requiredSession{ session =>
-      complete("home")
-    }
+    complete("home")
   }
 }

@@ -7,11 +7,10 @@ import de.heikoseeberger.akkahttpcirce.ErrorAccumulatingCirceSupport._
 import io.circe.Decoder
 import json.Json
 import service.{GithubService, GithubServiceErrors, LoginService, LoginServiceErrors}
-import session.SessionDirectives
 
 import scala.concurrent.ExecutionContext
 
-class LoginController(loginService: LoginService, githubService: GithubService, sessionDirectives: SessionDirectives)(
+class LoginController(loginService: LoginService, githubService: GithubService)(
     implicit ec: ExecutionContext
 ) extends LoginControllerJson {
   def login = {
@@ -31,9 +30,7 @@ class LoginController(loginService: LoginService, githubService: GithubService, 
 
       onSuccess(userE.value) {
         case Right(user) =>
-          sessionDirectives.setSession(user) {
-            complete("ok")
-          }
+          complete("ok")
         // TODO error handling
         case Left(error) =>
           error match {

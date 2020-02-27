@@ -5,14 +5,11 @@ import com.typesafe.config.ConfigFactory
 import controllers._
 import dao._
 import service._
-import session._
 
 trait MainModule {
   // TODO don't use global ExecutionContext
   implicit val ec = scala.concurrent.ExecutionContext.Implicits.global
   lazy val config = ConfigFactory.load()
-  lazy val sessionManager = wire[AppSessionManager]
-  lazy val sessionDirectives = wire[SessionDirectives]
 
   // daos
   lazy val quillContext = wire[MyContext]

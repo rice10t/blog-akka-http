@@ -15,8 +15,7 @@ object WebServer extends HttpApp {
       modules.homeController,
       modules.loginController,
       modules.taskController,
-      modules.userController,
-      modules.sessionDirectives
+      modules.userController
     )
   }
 
