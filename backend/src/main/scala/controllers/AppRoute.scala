@@ -5,7 +5,13 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.{ExceptionHandler, Route}
 import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 
-object Routes {
+class AppRoute(
+    articleController: ArticleController,
+    homeController: HomeController,
+    loginController: LoginController,
+    taskController: TaskController,
+    userController: UserController
+) {
   private def postRoute(pathString: String) = path(pathString) & post
 
   private def exceptionHandler: ExceptionHandler =
@@ -18,13 +24,7 @@ object Routes {
         }
     }
 
-  def routes(
-      articleController: ArticleController,
-      homeController: HomeController,
-      loginController: LoginController,
-      taskController: TaskController,
-      userController: UserController
-  ): Route = {
+  def routes(): Route = {
     handleExceptions(exceptionHandler) {
       cors() {
         concat(

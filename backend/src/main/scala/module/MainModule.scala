@@ -28,4 +28,7 @@ trait MainModule {
   lazy val loginController = wire[LoginController]
   lazy val taskController = wire[TaskController]
   lazy val userController = wire[UserController]
+
+  // route
+  lazy val route = wire[AppRoute]
 }
